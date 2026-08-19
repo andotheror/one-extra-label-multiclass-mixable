@@ -39,15 +39,7 @@
 \begin{abstract}
 Zero-one classification is not mixable. Aggregating \(N\) multiclass experts therefore costs order \(\sqrt{T\log N}\) regret in general. We show that one extra prediction slot changes the game discontinuously. If every expert predicts at most \(r\) labels and a randomized learner predicts exactly \(k>r\), then expected regret is independent of the horizon.
 
-We characterize the phenomenon exactly. For an unrestricted alphabet, the sharp resource-augmented mixability constant is the positive solution
-\[
-\frac{e^\eta-1}{\eta}=\frac{k}{r}.
-\]
-For a pool of \(N\) experts, the sharper constant solves
-\[
-\frac N\eta\log\left(1+\frac{e^\eta-1}{N}\right)=\frac{k}{r},
-\]
-and becomes infinite once \(k\ge Nr\). Exponential weights followed by an explicit exact-cardinality rounding rule then gives regret at most \(\log N/\eta\). We prove matching lower bounds near the phase transition and for larger augmentation.
+We characterize the phenomenon exactly. For an unrestricted alphabet, the sharp resource-augmented mixability constant is the positive solution \[ \frac{e^\eta-1}{\eta}=\frac{k}{r}. \] For a pool of \(N\) experts, the sharper constant solves \[ \frac N\eta\log\left(1+\frac{e^\eta-1}{N}\right)=\frac{k}{r}, \] and becomes infinite once \(k\ge Nr\). Exponential weights followed by an explicit exact-cardinality rounding rule then gives regret at most \(\log N/\eta\). We prove matching lower bounds near the phase transition and for larger augmentation.
 
 The same geometry has two learning consequences. It gives a high-probability \(1/n\) excess-risk rate for finite-class agnostic list learning, formalizing a recently identified hedging advantage. It also converts list Littlestone covers into \(O(d\log T)\), rather than square-root-in-\(T\), agnostic regret whenever the learner has more slots than the comparator. Thus a single additional answer changes both adversarial aggregation and stochastic model selection from nonmixable to fast-rate regimes.
 \end{abstract}
@@ -58,32 +50,11 @@ Top-\(k\) prediction is a basic way to express ambiguity. A classifier may retur
 
 Without augmentation, the answer is classical. Randomized zero-one prediction is not mixable, so worst-case regret against \(N\) experts grows as \(\Theta(\sqrt{T\log N})\) \citep{cesabianchi2006prediction}. This remains true if every label is copied \(r\) times and both expert and learner return \(r\)-lists. In contrast, we prove that every strict increase in cardinality makes the asymmetric game mixable. The learner then pays a constant aggregation cost independent of \(T\).
 
-The simplest case is already striking. Experts predict one multiclass label and the learner predicts two. Let \(w_i\) be a posterior over experts and let \(s_y\) be the posterior mass predicting label \(y\). The exponential mix loss at outcome \(y\) is
-\[
-b_\eta(s_y)
-=-\frac1\eta\log\left(e^{-\eta}+(1-e^{-\eta})s_y\right).
-\]
-If the learner includes \(y\) with probability \(p_y\), its expected omission loss is \(1-p_y\). Dominating the mix loss requires
-\[
-p_y\ge g_\eta(s_y)
-:=1-b_\eta(s_y)
-=\frac1\eta\log\left(1+(e^\eta-1)s_y\right).
-\]
-A randomized two-list exists exactly when these lower marginals use at most two units of inclusion probability. Concavity gives
-\[
-\sum_y g_\eta(s_y)
-\le g_\eta'(0)\sum_y s_y
-=\frac{e^\eta-1}{\eta}.
-\]
-The largest valid learning rate therefore solves \((e^\eta-1)/\eta=2\), giving \(\eta=1.2564\ldots\). Exponential weights has expected regret at most \(0.796\log N\), regardless of the number of rounds or labels.
+The simplest case is already striking. Experts predict one multiclass label and the learner predicts two. Let \(w_i\) be a posterior over experts and let \(s_y\) be the posterior mass predicting label \(y\). The exponential mix loss at outcome \(y\) is \[ b_\eta(s_y) =-\frac1\eta\log\left(e^{-\eta}+(1-e^{-\eta})s_y\right). \] If the learner includes \(y\) with probability \(p_y\), its expected omission loss is \(1-p_y\). Dominating the mix loss requires \[ p_y\ge g_\eta(s_y) :=1-b_\eta(s_y) =\frac1\eta\log\left(1+(e^\eta-1)s_y\right). \] A randomized two-list exists exactly when these lower marginals use at most two units of inclusion probability. Concavity gives \[ \sum_y g_\eta(s_y) \le g_\eta'(0)\sum_y s_y =\frac{e^\eta-1}{\eta}. \] The largest valid learning rate therefore solves \((e^\eta-1)/\eta=2\), giving \(\eta=1.2564\ldots\). Exponential weights has expected regret at most \(0.796\log N\), regardless of the number of rounds or labels.
 
 This calculation extends exactly in three directions. If experts return \(r\)-lists and the learner returns \(k\)-lists, only the ratio \(k/r\) enters the alphabet-uniform constant. On a finite \(m\)-label alphabet, the exact constant is larger and is attained by the uniform posterior over all \(r\)-subsets. For a fixed pool of \(N\) experts, an even sharper constant is attained by \(N\) disjoint lists. It diverges as \(k\) approaches \(Nr\), at which point the learner can return the union of all expert predictions and obtain pointwise loss no larger than every expert.
 
-The proof is geometric but constructive. Inclusion marginals of randomized exact \(k\)-lists form the hypersimplex
-\[
-\left\{p\in[0,1]^m:\sum_yp_y=k\right\}.
-\]
-Mixability reduces to one concave budget inequality. After satisfying its coordinatewise lower bounds, a one-dimensional systematic-sampling rule produces an exact \(k\)-set with the desired marginals. The resulting aggregating algorithm runs in time linear in the union of the expert lists, apart from maintaining the expert weights.
+The proof is geometric but constructive. Inclusion marginals of randomized exact \(k\)-lists form the hypersimplex \[ \left\{p\in[0,1]^m:\sum_yp_y=k\right\}. \] Mixability reduces to one concave budget inequality. After satisfying its coordinatewise lower bounds, a one-dimensional systematic-sampling rule produces an exact \(k\)-set with the desired marginals. The resulting aggregating algorithm runs in time linear in the union of the expert lists, apart from maintaining the expert weights.
 
 The phase transition is quantitatively sharp. Let \(k=r+s\). A replicated binary hypercube proves an \(\Omega((r/s)\log N)\) horizon-uniform lower bound when \(s/r\) is small. The key identity converts any randomized \(k\)-list into an ordinary binary prediction whose loss is discounted by exactly \(1-s/r\), while comparator losses are not discounted. A noisy Assouad construction then matches the expansion \(\eta=2s/r+O((s/r)^2)\). For larger \(k/r\), a grouped multiclass tree gives \(\Omega(\log N/\log(1+k/r))\), matching the mixability constant whenever the expert pool supports the tree. At \(k=r\), the embedding recovers the usual square-root lower bound.
 
@@ -102,17 +73,7 @@ Our notion is asymmetric. Standard mixability uses the same prediction space for
 \section{Protocol and exact constants}
 \label{sec:protocol}
 
-Let \(\cY\) be a label set with at least \(k\) elements. Write
-\[
-\cB_r=\{B\subseteq\cY:|B|\le r\},
-\qquad
-\cA_k=\{A\subseteq\cY:|A|=k\}.
-\]
-Both sides are evaluated by omission loss
-\[
-\ell(C,y)=\1\{y\notin C\}.
-\]
-Experts choose actions from \(\cB_r\). The learner chooses a distribution over \(\cA_k\).
+Let \(\cY\) be a label set with at least \(k\) elements. Write \[ \cB_r=\{B\subseteq\cY:|B|\le r\}, \qquad \cA_k=\{A\subseteq\cY:|A|=k\}. \] Both sides are evaluated by omission loss \[ \ell(C,y)=\1\{y\notin C\}. \] Experts choose actions from \(\cB_r\). The learner chooses a distribution over \(\cA_k\).
 
 \begin{definition}[Resource-augmented mixability]
 \label{def:mix}
@@ -126,11 +87,7 @@ The \((r\!\to\!k)\) list game is \(\eta\)-mixable if, for every finite posterior
 
 The definition restricts the actions being aggregated. This differs from standard mixability, which quantifies over posteriors on the entire learner action space.
 
-For a posterior \(w\), define its label inclusion marginals
-\[
-s_y=\sum_iw_i\1\{y\in B_i\}.
-\]
-Then \(0\le s_y\le1\) and \(\sum_ys_y\le r\). Define
+For a posterior \(w\), define its label inclusion marginals \[ s_y=\sum_iw_i\1\{y\in B_i\}. \] Then \(0\le s_y\le1\) and \(\sum_ys_y\le r\). Define
 \begin{equation}
 \label{eq:bg}
 b_\eta(s)=-\frac1\eta\log\left(e^{-\eta}+(1-e^{-\eta})s\right),
@@ -138,10 +95,7 @@ b_\eta(s)=-\frac1\eta\log\left(e^{-\eta}+(1-e^{-\eta})s\right),
 g_\eta(s)=1-b_\eta(s)
 =\frac1\eta\log\left(1+(e^\eta-1)s\right).
 \end{equation}
-The function \(g_\eta\) is increasing and strictly concave, with \(g_\eta(0)=0\) and
-\[
-g_\eta'(0)=\frac{e^\eta-1}{\eta}.
-\]
+The function \(g_\eta\) is increasing and strictly concave, with \(g_\eta(0)=0\) and \[ g_\eta'(0)=\frac{e^\eta-1}{\eta}. \]
 
 \begin{lemma}[Budget criterion]
 \label{lem:budget}
@@ -186,17 +140,7 @@ The extremizers explain the formulas. On \(m\) labels, uniform mixing over all \
 
 \begin{remark}[Asymptotics]
 \label{rem:asymptotics}
-Writing \(c=k/r\), the uniform constant obeys
-\[
-\eta_\infty=2(c-1)+O((c-1)^2)
-\quad\text{as }c\downarrow1,
-\]
-and
-\[
-\eta_\infty=\log c+\log\log c+o(1)
-\quad\text{as }c\to\infty.
-\]
-For fixed \(N\), \(\eta_N\sim N\log N/(N-c)\) as \(c\uparrow N\). Thus the finite-pool aggregation cost vanishes continuously when the learner list approaches the union budget.
+Writing \(c=k/r\), the uniform constant obeys \[ \eta_\infty=2(c-1)+O((c-1)^2) \quad\text{as }c\downarrow1, \] and \[ \eta_\infty=\log c+\log\log c+o(1) \quad\text{as }c\to\infty. \] For fixed \(N\), \(\eta_N\sim N\log N/(N-c)\) as \(c\uparrow N\). Thus the finite-pool aggregation cost vanishes continuously when the learner list approaches the union budget.
 \end{remark}
 
 \section{Aggregating algorithm}
@@ -208,16 +152,11 @@ There are \(N\) experts with prior \(\pi\). On round \(t\), expert \(i\) observe
 \textbf{Resource-augmented aggregating algorithm}
 \begin{enumerate}
 \item Form posterior weights \(w_{t,i}=W_{t,i}/\sum_jW_{t,j}\) and marginals
-\[
-s_{t,y}=\sum_iw_{t,i}\1\{y\in B_{t,i}\}.
-\]
+\[ s_{t,y}=\sum_iw_{t,i}\1\{y\in B_{t,i}\}. \]
 \item Set lower inclusion demands \(d_{t,y}=g_\eta(s_{t,y})\). Increase coordinates without exceeding one until \(p_t\ge d_t\) and \(\sum_yp_{t,y}=k\).
 \item Sample an exact \(k\)-list with inclusion marginals \(p_t\) using the systematic procedure in Appendix~\ref{app:rounding}.
 \item Update
-\[
-W_{t+1,i}=W_{t,i}
-\exp\{-\eta\ell(B_{t,i},y_t)\}.
-\]
+\[ W_{t+1,i}=W_{t,i} \exp\{-\eta\ell(B_{t,i},y_t)\}. \]
 \end{enumerate}
 \end{minipage}
 
@@ -243,15 +182,7 @@ The implementation does not enumerate \(k\)-sets. It computes at most \(Nr\) pos
 \section{Lower bounds and the phase transition}
 \label{sec:lower}
 
-The exact mixability constants identify the strongest exponential-weights substitution. We next show that their dependence on augmentation is minimax sharp in the principal regimes. Define the horizon-uniform worst-case regret
-\[
-\mathfrak R_N(r,k)
-=\inf_A\sup_{T\ge1}\sup_{\{B_{t,i},y_t\}}
-\left\{
-\sum_{t=1}^T\E\ell(A_t,y_t)
--\min_{i\in[N]}\sum_{t=1}^T\ell(B_{t,i},y_t)
-\right\}.
-\]
+The exact mixability constants identify the strongest exponential-weights substitution. We next show that their dependence on augmentation is minimax sharp in the principal regimes. Define the horizon-uniform worst-case regret \[ \mathfrak R_N(r,k) =\inf_A\sup_{T\ge1}\sup_{\{B_{t,i},y_t\}} \left\{ \sum_{t=1}^T\E\ell(A_t,y_t) -\min_{i\in[N]}\sum_{t=1}^T\ell(B_{t,i},y_t) \right\}. \]
 
 \begin{theorem}[Augmentation lower bounds]
 \label{thm:lower}
@@ -276,15 +207,7 @@ There is a universal constant \(c_0>0\) with the following properties.
 Since \(\eta_\infty(1+s/r)=\Theta(s/r)\), \eqref{eq:near-lower} matches the alphabet-uniform upper bound \(\log N/\eta_\infty\). Since \(\eta_\infty(c)=\Theta(\log(c+1))\) away from one, \eqref{eq:large-lower} does the same when the pool supports two tree levels. The finite-\(N\) upper bound is sharper as \(c\) approaches \(N\), and zero regret is possible at \(c\ge N\). We do not claim that the grouped-tree lower bound resolves that vanishing finite-pool regime.
 
 \paragraph{Near-threshold idea.}
-Use labels \([r]\times\{0,1\}\) and embed a binary expert \(h\) as
-\[
-B_h(x)=\{(j,h(x)):j\in[r]\}.
-\]
-Let \(p_{j,b}\) be the learner's inclusion marginals, let \(\bar p_b=r^{-1}\sum_jp_{j,b}\), and put \(a=s/r\). Because \(\bar p_0+\bar p_1=1+a\) and each average is at most one,
-\[
-u_b=\frac{\bar p_b-a}{1-a}
-\]
-is a binary distribution. If \(J\) is uniform on \([r]\) and the outcome is \((J,Y)\), then
+Use labels \([r]\times\{0,1\}\) and embed a binary expert \(h\) as \[ B_h(x)=\{(j,h(x)):j\in[r]\}. \] Let \(p_{j,b}\) be the learner's inclusion marginals, let \(\bar p_b=r^{-1}\sum_jp_{j,b}\), and put \(a=s/r\). Because \(\bar p_0+\bar p_1=1+a\) and each average is at most one, \[ u_b=\frac{\bar p_b-a}{1-a} \] is a binary distribution. If \(J\) is uniform on \([r]\) and the outcome is \((J,Y)\), then
 \begin{equation}
 \label{eq:discount}
 \E_J[1-p_{J,Y}]
@@ -293,12 +216,7 @@ is a binary distribution. If \(J\) is uniform on \([r]\) and the outcome is \((J
 \end{equation}
 Thus the list learner induces a binary learner whose loss is discounted by \(1-a\), while comparator losses are unchanged.
 
-Take a \(d=\lfloor\log_2N\rfloor\) dimensional binary hypercube with a uniform latent labeling. Query a uniform coordinate and reveal its latent bit through noise with bias \(\gamma=4a\). For \(T=\Theta(d/a^2)\) rounds, a pairwise KL calculation keeps the probability of predicting the latent bit incorrectly bounded below by \(3/8\). By \eqref{eq:discount}, expected per-round regret against the latent expert is at least
-\[
-(1-a)\gamma\frac38-a\frac{1-\gamma}{2}
-=a+\frac{a^2}{2}.
-\]
-The product is \(\Omega(d/a)\). Appendix~\ref{app:lower-proofs} proves the constants and handles arbitrary \(N\).
+Take a \(d=\lfloor\log_2N\rfloor\) dimensional binary hypercube with a uniform latent labeling. Query a uniform coordinate and reveal its latent bit through noise with bias \(\gamma=4a\). For \(T=\Theta(d/a^2)\) rounds, a pairwise KL calculation keeps the probability of predicting the latent bit incorrectly bounded below by \(3/8\). By \eqref{eq:discount}, expected per-round regret against the latent expert is at least \[ (1-a)\gamma\frac38-a\frac{1-\gamma}{2} =a+\frac{a^2}{2}. \] The product is \(\Omega(d/a)\). Appendix~\ref{app:lower-proofs} proves the constants and handles arbitrary \(N\).
 
 \paragraph{Larger-augmentation idea.}
 Split \(qr\) labels into \(q\) groups of size \(r\). At each node of a complete \(q\)-ary tree, experts in child \(j\)'s subtree predict group \(j\). Some label has learner inclusion probability at most \(k/(qr)=c/q\le1/2\). Reveal such a label and descend into its group. One leaf expert remains perfect, while the learner incurs expected loss at least \(1/2\) per level.
@@ -308,11 +226,7 @@ Split \(qr\) labels into \(q\) groups of size \(r\). At each node of a complete 
 
 \subsection{Finite-class agnostic list learning}
 
-Let \(B_1,\ldots,B_N:X\to\cB_r\) be a finite comparator class and let \(P\) be any distribution on \(X\times\cY\). Write
-\[
-\risk(B_i)=\Pp_{(X,Y)\sim P}\{Y\notin B_i(X)\}.
-\]
-The learned predictor is a randomized kernel \(x\mapsto Q_x\in\DeltaS(\cA_k)\), with risk averaged over its internal randomization.
+Let \(B_1,\ldots,B_N:X\to\cB_r\) be a finite comparator class and let \(P\) be any distribution on \(X\times\cY\). Write \[ \risk(B_i)=\Pp_{(X,Y)\sim P}\{Y\notin B_i(X)\}. \] The learned predictor is a randomized kernel \(x\mapsto Q_x\in\DeltaS(\cA_k)\), with risk averaged over its internal randomization.
 
 \begin{corollary}[Fast stochastic aggregation]
 \label{cor:stochastic}
@@ -339,22 +253,9 @@ There is also a learner which, with probability at least \(1-\delta\), satisfies
 \end{align}
 \end{corollary}
 
-The expectation bound follows directly by online-to-batch conversion of Theorem~\ref{thm:regret}. The high-probability statement uses the model-selection aggregation theorem of \citet{mehta2017fast}. The surrogate prediction is a convex combination of expert incidence vectors and its loss is
-\[
-\widetilde\ell_\eta(v,y)=b_\eta(v_y).
-\]
-It is bounded and \(\eta\)-exp-concave because
-\[
-\exp\{-\eta\widetilde\ell_\eta(v,y)\}
-=e^{-\eta}+(1-e^{-\eta})v_y
-\]
-is affine in \(v\). At every comparator vertex, the surrogate equals omission loss. The resource-augmented substitution then converts the learned convex predictor pointwise to an exact randomized \(k\)-list without increasing risk. Appendix~\ref{app:stochastic} checks the assumptions and constants.
+The expectation bound follows directly by online-to-batch conversion of Theorem~\ref{thm:regret}. The high-probability statement uses the model-selection aggregation theorem of \citet{mehta2017fast}. The surrogate prediction is a convex combination of expert incidence vectors and its loss is \[ \widetilde\ell_\eta(v,y)=b_\eta(v_y). \] It is bounded and \(\eta\)-exp-concave because \[ \exp\{-\eta\widetilde\ell_\eta(v,y)\} =e^{-\eta}+(1-e^{-\eta})v_y \] is affine in \(v\). At every comparator vertex, the surrogate equals omission loss. The resource-augmented substitution then converts the learned convex predictor pointwise to an exact randomized \(k\)-list without increasing risk. Appendix~\ref{app:stochastic} checks the assumptions and constants.
 
-For \(r=1\), Corollary~\ref{cor:stochastic} competes with the best ordinary multiclass classifier while returning a list of size \(k\). It gives expected sample complexity
-\[
-O\left(\frac{\log N}{\eta_N(1,k)\varepsilon}\right),
-\]
-rather than the usual \(1/\varepsilon^2\) agnostic scale. This makes precise the hedging mechanism highlighted by \citet{pabbaraju2026optimal}. It is a finite-class result and does not establish a dimension-only \(1/\varepsilon\) theorem for arbitrary infinite classes.
+For \(r=1\), Corollary~\ref{cor:stochastic} competes with the best ordinary multiclass classifier while returning a list of size \(k\). It gives expected sample complexity \[ O\left(\frac{\log N}{\eta_N(1,k)\varepsilon}\right), \] rather than the usual \(1/\varepsilon^2\) agnostic scale. This makes precise the hedging mechanism highlighted by \citet{pabbaraju2026optimal}. It is a finite-class result and does not establish a dimension-only \(1/\varepsilon\) theorem for arbitrary infinite classes.
 
 \subsection{List Littlestone covers}
 
@@ -433,46 +334,17 @@ The posterior marginals satisfy \(\sum_ys_y\le r\). Since \(g_\eta\) is increasi
 \end{equation}
 Uniform mixing over all exact \(r\)-subsets gives \(s_y=r/m\), so both inequalities are equalities. By Lemma~\ref{lem:budget}, the exact threshold is \(m g_\eta(r/m)=k\), which is \eqref{eq:finite-m}. If \(k\ge m\), the learner includes the entire alphabet and has zero loss.
 
-For fixed \(s\in(0,1)\), the function \(g_\eta(s)\) is strictly increasing in \(\eta>0\). Indeed, it is the secant slope from zero to \(\eta\) of the strictly convex function
-\[
-\phi_s(\eta)=\log(1-s+se^\eta).
-\]
-It increases from \(s\) to one. Since \(r<k<m\), the finite-alphabet threshold has a unique positive root.
+For fixed \(s\in(0,1)\), the function \(g_\eta(s)\) is strictly increasing in \(\eta>0\). Indeed, it is the secant slope from zero to \(\eta\) of the strictly convex function \[ \phi_s(\eta)=\log(1-s+se^\eta). \] It increases from \(s\) to one. Since \(r<k<m\), the finite-alphabet threshold has a unique positive root.
 
 \subsection{Fixed expert pool}
 
-A posterior on at most \(N\) experts has no more than \(Nr\) active labels. Applying \eqref{eq:jensen-m} on its active support gives
-\[
-\sum_yg_\eta(s_y)
-\le Nr\,g_\eta(1/N).
-\]
-Equality is attained by uniform mixing over \(N\) pairwise disjoint exact \(r\)-lists. The threshold \(Nr\,g_\eta(1/N)=k\) is equivalent to \eqref{eq:finite-n}. Its left side after division by \(r\) increases continuously from one to \(N\) as \(\eta\) ranges from zero to infinity. If \(k\ge Nr\), the union of all posterior-supported lists fits in the learner action.
+A posterior on at most \(N\) experts has no more than \(Nr\) active labels. Applying \eqref{eq:jensen-m} on its active support gives \[ \sum_yg_\eta(s_y) \le Nr\,g_\eta(1/N). \] Equality is attained by uniform mixing over \(N\) pairwise disjoint exact \(r\)-lists. The threshold \(Nr\,g_\eta(1/N)=k\) is equivalent to \eqref{eq:finite-n}. Its left side after division by \(r\) increases continuously from one to \(N\) as \(\eta\) ranges from zero to infinity. If \(k\ge Nr\), the union of all posterior-supported lists fits in the learner action.
 
 \subsection{Alphabet-uniform constant and monotonicity}
 
-Concavity and \(g_\eta(0)=0\) give the tangent bound
-\[
-g_\eta(s)\le g_\eta'(0)s
-=\frac{e^\eta-1}{\eta}s.
-\]
-Therefore
-\[
-\sum_yg_\eta(s_y)
-\le r\frac{e^\eta-1}{\eta}.
-\]
-This is at most \(k\) exactly under \eqref{eq:infinite}. Conversely, the uniform posterior over all \(r\)-subsets of an \(m\)-label alphabet satisfies
-\[
-m g_\eta(r/m)\longrightarrow r g_\eta'(0)
-=r\frac{e^\eta-1}{\eta}.
-\]
-Any larger \(\eta\) fails on all sufficiently large alphabets.
+Concavity and \(g_\eta(0)=0\) give the tangent bound \[ g_\eta(s)\le g_\eta'(0)s =\frac{e^\eta-1}{\eta}s. \] Therefore \[ \sum_yg_\eta(s_y) \le r\frac{e^\eta-1}{\eta}. \] This is at most \(k\) exactly under \eqref{eq:infinite}. Conversely, the uniform posterior over all \(r\)-subsets of an \(m\)-label alphabet satisfies \[ m g_\eta(r/m)\longrightarrow r g_\eta'(0) =r\frac{e^\eta-1}{\eta}. \] Any larger \(\eta\) fails on all sufficiently large alphabets.
 
-For a concave function vanishing at zero, \(g_\eta(s)/s\) decreases in \(s\). Hence
-\[
-m g_\eta(r/m)
-=r\frac{g_\eta(r/m)}{r/m}
-\]
-increases with \(m\). The corresponding root decreases to \(\eta_\infty\). The same argument applied to \(N g_\eta(1/N)\) proves the fixed-pool monotonicity.
+For a concave function vanishing at zero, \(g_\eta(s)/s\) decreases in \(s\). Hence \[ m g_\eta(r/m) =r\frac{g_\eta(r/m)}{r/m} \] increases with \(m\). The corresponding root decreases to \(\eta_\infty\). The same argument applied to \(N g_\eta(1/N)\) proves the fixed-pool monotonicity.
 
 \section{Exact-cardinality substitution}
 \label{app:rounding}
@@ -485,19 +357,13 @@ We give a direct rounding procedure which avoids enumerating the vertices of the
 \item Fix an ordering \(y_1,\ldots,y_m\) containing every positive coordinate and enough filler labels. Put \(C_0=0\) and \(C_j=\sum_{i=1}^jp_{y_i}\).
 \item Draw \(U\) uniformly from \([0,1)\).
 \item Return every \(y_j\) for which the half-open interval \([C_{j-1},C_j)\) contains a point in
-\[
-\{U,U+1,\ldots,U+k-1\}.
-\]
+\[ \{U,U+1,\ldots,U+k-1\}. \]
 \end{enumerate}
 \end{minipage}
 
 \begin{lemma}[Rounding guarantee]
 \label{lem:rounding}
-Algorithm~1 returns exactly \(k\) distinct labels and satisfies
-\[
-\Pp(y\text{ is returned})=p_y
-\quad\text{for every }y.
-\]
+Algorithm~1 returns exactly \(k\) distinct labels and satisfies \[ \Pp(y\text{ is returned})=p_y \quad\text{for every }y. \]
 \end{lemma}
 
 \begin{proof}
@@ -518,71 +384,22 @@ Let \(W_t=\sum_iW_{t,i}\). The exponential update gives
 &=e^{-\eta}+(1-e^{-\eta})s_{t,y_t}.
 \label{eq:potential-step}
 \end{align}
-By the substitution and \eqref{eq:bg},
-\[
-\E_t\ell(A_t,y_t)
-\le b_\eta(s_{t,y_t})
-=-\frac1\eta\log\frac{W_{t+1}}{W_t}.
-\]
-Summing over rounds yields
-\[
-\sum_{t=1}^T\E_t\ell(A_t,y_t)
-\le-\frac1\eta\log\frac{W_{T+1}}{W_1}.
-\]
-Initialize \(W_{1,i}=\pi_i\), so \(W_1=1\). For every \(i\),
-\[
-W_{T+1}
-\ge\pi_i\exp\left\{-\eta\sum_{t=1}^T
-\ell(B_{t,i},y_t)\right\}.
-\]
-Substitution proves Theorem~\ref{thm:regret}.
+By the substitution and \eqref{eq:bg}, \[ \E_t\ell(A_t,y_t) \le b_\eta(s_{t,y_t}) =-\frac1\eta\log\frac{W_{t+1}}{W_t}. \] Summing over rounds yields \[ \sum_{t=1}^T\E_t\ell(A_t,y_t) \le-\frac1\eta\log\frac{W_{T+1}}{W_1}. \] Initialize \(W_{1,i}=\pi_i\), so \(W_1=1\). For every \(i\), \[ W_{T+1} \ge\pi_i\exp\left\{-\eta\sum_{t=1}^T \ell(B_{t,i},y_t)\right\}. \] Substitution proves Theorem~\ref{thm:regret}.
 
 \section{Lower-bound proofs}
 \label{app:lower-proofs}
 
 \subsection{A discounted binary embedding}
 
-Let \(k=r+s\) and \(a=s/r<1\). On the alphabet \([r]\times\{0,1\}\), embed a binary prediction \(h(x)\) as
-\[
-B_h(x)=\{(j,h(x)):j\in[r]\}.
-\]
-For any distribution over exact \(k\)-lists, let \(p_{j,b}\) denote the inclusion marginal of \((j,b)\) and define
-\[
-\bar p_b=\frac1r\sum_{j=1}^rp_{j,b}.
-\]
-Since the total inclusion budget is \(r+s\),
-\[
-\bar p_0+\bar p_1=1+a.
-\]
-Each \(\bar p_b\le1\), so \(\bar p_b\ge a\). Therefore
-\[
-u_b=\frac{\bar p_b-a}{1-a}
-\]
-is a probability distribution on \(\{0,1\}\).
+Let \(k=r+s\) and \(a=s/r<1\). On the alphabet \([r]\times\{0,1\}\), embed a binary prediction \(h(x)\) as \[ B_h(x)=\{(j,h(x)):j\in[r]\}. \] For any distribution over exact \(k\)-lists, let \(p_{j,b}\) denote the inclusion marginal of \((j,b)\) and define \[ \bar p_b=\frac1r\sum_{j=1}^rp_{j,b}. \] Since the total inclusion budget is \(r+s\), \[ \bar p_0+\bar p_1=1+a. \] Each \(\bar p_b\le1\), so \(\bar p_b\ge a\). Therefore \[ u_b=\frac{\bar p_b-a}{1-a} \] is a probability distribution on \(\{0,1\}\).
 
-Draw \(J\) uniformly from \([r]\). For either binary outcome \(Y\),
-\[
-\E_J\ell(A,(J,Y))
-=1-\bar p_Y
-=(1-a)(1-u_Y).
-\]
-Every embedded expert has
-\[
-\ell(B_h(x),(J,Y))=\1\{h(x)\ne Y\}.
-\]
-This proves the exact discount identity \eqref{eq:discount}. When \(a=0\), it transfers every ordinary binary experts lower bound, proving the first part of Theorem~\ref{thm:lower}.
+Draw \(J\) uniformly from \([r]\). For either binary outcome \(Y\), \[ \E_J\ell(A,(J,Y)) =1-\bar p_Y =(1-a)(1-u_Y). \] Every embedded expert has \[ \ell(B_h(x),(J,Y))=\1\{h(x)\ne Y\}. \] This proves the exact discount identity \eqref{eq:discount}. When \(a=0\), it transfers every ordinary binary experts lower bound, proving the first part of Theorem~\ref{thm:lower}.
 
 \subsection{Noisy hypercube near the threshold}
 
 Let \(d=\lfloor\log_2N\rfloor\). It suffices to lower bound a pool of \(2^d\) experts because duplicates can be added. Index experts by \(\theta\in\{0,1\}^d\) and let \(h_\theta(x)=\theta_x\) on \(X=[d]\).
 
-We use Yao's principle. Draw \(\theta\) uniformly. Independently on every round, draw \(X_t\) uniformly from \([d]\) and \(J_t\) uniformly from \([r]\). Conditional on \(X_t\) and \(\theta\), draw
-\[
-\Pp(Y_t=\theta_{X_t})=\frac{1+\gamma}{2},
-\qquad
-\gamma=4a.
-\]
-The revealed multiclass outcome is \((J_t,Y_t)\). We lower bound every deterministic list strategy against this distribution. This also covers randomized strategies after averaging their internal seed.
+We use Yao's principle. Draw \(\theta\) uniformly. Independently on every round, draw \(X_t\) uniformly from \([d]\) and \(J_t\) uniformly from \([r]\). Conditional on \(X_t\) and \(\theta\), draw \[ \Pp(Y_t=\theta_{X_t})=\frac{1+\gamma}{2}, \qquad \gamma=4a. \] The revealed multiclass outcome is \((J_t,Y_t)\). We lower bound every deterministic list strategy against this distribution. This also covers randomized strategies after averaging their internal seed.
 
 Fix the current coordinate \(x=X_t\). Let \(P_0\) and \(P_1\) be the laws of the history through round \(t-1\), conditional on \(\theta_x=0\) and \(\theta_x=1\), with the other latent bits averaged uniformly. A previous observation carries information about \(\theta_x\) only when its coordinate equals \(x\). For \(\gamma\le1/4\),
 \begin{align}
@@ -595,24 +412,7 @@ Fix the current coordinate \(x=X_t\). Let \(P_0\) and \(P_1\) be the laws of the
 &\le4\gamma^2.
 \label{eq:ber-kl}
 \end{align}
-The chain rule and the \(1/d\) probability of querying \(x\) give
-\[
-\KL(P_0\|P_1)
-\le\frac{4\gamma^2(t-1)}d.
-\]
-If \(t-1\le d/(32\gamma^2)\), then Pinsker's inequality gives
-\[
-\TV(P_0,P_1)\le\sqrt{\KL(P_0\|P_1)/2}\le\frac14.
-\]
-The Bayes error for predicting the uniform bit \(\theta_x\) from the history is at least
-\[
-\frac{1-\TV(P_0,P_1)}2\ge\frac38.
-\]
-The same lower bound applies to the induced randomized binary prediction \(u\). Let \(q_t=\E[1-u_{\theta_{X_t}}]\). Its expected binary error on the noisy label is
-\[
-\frac{1-\gamma}{2}+\gamma q_t.
-\]
-The true expert \(h_\theta\) has expected error \((1-\gamma)/2\). Using the discount identity and \(q_t\ge3/8\), the expected regret relative to \(h_\theta\) on round \(t\) is at least
+The chain rule and the \(1/d\) probability of querying \(x\) give \[ \KL(P_0\|P_1) \le\frac{4\gamma^2(t-1)}d. \] If \(t-1\le d/(32\gamma^2)\), then Pinsker's inequality gives \[ \TV(P_0,P_1)\le\sqrt{\KL(P_0\|P_1)/2}\le\frac14. \] The Bayes error for predicting the uniform bit \(\theta_x\) from the history is at least \[ \frac{1-\TV(P_0,P_1)}2\ge\frac38. \] The same lower bound applies to the induced randomized binary prediction \(u\). Let \(q_t=\E[1-u_{\theta_{X_t}}]\). Its expected binary error on the noisy label is \[ \frac{1-\gamma}{2}+\gamma q_t. \] The true expert \(h_\theta\) has expected error \((1-\gamma)/2\). Using the discount identity and \(q_t\ge3/8\), the expected regret relative to \(h_\theta\) on round \(t\) is at least
 \begin{align*}
 (1-a)\left(\frac{1-\gamma}{2}+\gamma q_t\right)
 -\frac{1-\gamma}{2}
@@ -620,44 +420,22 @@ The true expert \(h_\theta\) has expected error \((1-\gamma)/2\). Using the disc
 &=a+\frac{a^2}{2}\\
 &\ge a.
 \end{align*}
-Set
-\[
-T=1+\left\lfloor\frac{d}{32\gamma^2}\right\rfloor.
-\]
-Every round through \(T\) satisfies the information bound, and \(T>d/(32\gamma^2)\). Expected regret relative to \(h_\theta\), hence also relative to the best expert, is at least
-\[
-aT>\frac{ad}{32\gamma^2}
-=\frac{d}{512a}.
-\]
-This proves \eqref{eq:near-lower} with an explicit universal constant.
+Set \[ T=1+\left\lfloor\frac{d}{32\gamma^2}\right\rfloor. \] Every round through \(T\) satisfies the information bound, and \(T>d/(32\gamma^2)\). Expected regret relative to \(h_\theta\), hence also relative to the best expert, is at least \[ aT>\frac{ad}{32\gamma^2} =\frac{d}{512a}. \] This proves \eqref{eq:near-lower} with an explicit universal constant.
 
 \subsection{Grouped tree for larger augmentation}
 
 Let \(c=k/r\), \(q=\lceil2c\rceil\), and \(d=\lfloor\log_qN\rfloor\). Use \(qr\) labels partitioned into disjoint groups \(G_1,\ldots,G_q\), each of size \(r\). Consider a complete \(q\)-ary tree of depth \(d\), with one expert for each leaf. At an internal node, every expert in child \(j\)'s subtree predicts \(G_j\). Predictions of experts already outside the retained subtree can be arbitrary.
 
-At the current node, let \(p_y\) be the learner's inclusion marginals. Since \(\sum_yp_y=k\), some label \(y\) satisfies
-\[
-p_y\le\frac{k}{qr}=\frac cq\le\frac12.
-\]
-The adversary reveals \(y\) and descends to the child indexed by the group containing \(y\). The learner's expected loss is at least \(1/2\). Every expert retained after this step predicted the whole group containing \(y\), so it has zero loss. Repeating for \(d\) levels leaves one zero-loss expert and gives regret at least \(d/2\).
+At the current node, let \(p_y\) be the learner's inclusion marginals. Since \(\sum_yp_y=k\), some label \(y\) satisfies \[ p_y\le\frac{k}{qr}=\frac cq\le\frac12. \] The adversary reveals \(y\) and descends to the child indexed by the group containing \(y\). The learner's expected loss is at least \(1/2\). Every expert retained after this step predicted the whole group containing \(y\), so it has zero loss. Repeating for \(d\) levels leaves one zero-loss expert and gives regret at least \(d/2\).
 
-If \(N\) is not a power of \(q\), add arbitrary duplicate experts to the \(q^d\)-expert construction. When \(N\ge q^2\), elementary comparisons between \(q=\lceil2c\rceil\) and \(c+1\) give
-\[
-\frac d2
-=\Omega\left(\frac{\log N}{\log(c+1)}\right).
-\]
-This proves \eqref{eq:large-lower}.
+If \(N\) is not a power of \(q\), add arbitrary duplicate experts to the \(q^d\)-expert construction. When \(N\ge q^2\), elementary comparisons between \(q=\lceil2c\rceil\) and \(c+1\) give \[ \frac d2 =\Omega\left(\frac{\log N}{\log(c+1)}\right). \] This proves \eqref{eq:large-lower}.
 
 \section{Stochastic conversions}
 \label{app:stochastic}
 
 \subsection{Expected excess risk}
 
-Run the online algorithm on an iid sample \(Z_1,\ldots,Z_n\), with \(Z_t=(X_t,Y_t)\). Let \(Q_t(\cdot\mid x)\) be the randomized list predictor formed from the weights before observing \(Z_t\). After training, draw \(J\) uniformly from \([n]\) and output \(Q_J\). The prediction \(Q_t\) depends only on \(Z_{<t}\), so independence gives
-\[
-\E\ell(Q_t(X_t),Y_t)=\E\risk(Q_t).
-\]
-Theorem~\ref{thm:regret} and the inequality \(\E\min_i V_i\le\min_i\E V_i\) imply
+Run the online algorithm on an iid sample \(Z_1,\ldots,Z_n\), with \(Z_t=(X_t,Y_t)\). Let \(Q_t(\cdot\mid x)\) be the randomized list predictor formed from the weights before observing \(Z_t\). After training, draw \(J\) uniformly from \([n]\) and output \(Q_J\). The prediction \(Q_t\) depends only on \(Z_{<t}\), so independence gives \[ \E\ell(Q_t(X_t),Y_t)=\E\risk(Q_t). \] Theorem~\ref{thm:regret} and the inequality \(\E\min_i V_i\le\min_i\E V_i\) imply
 \begin{align*}
 \sum_{t=1}^n\E\risk(Q_t)
 &\le
@@ -671,20 +449,7 @@ Dividing by \(n\) proves \eqref{eq:expected-fast}.
 
 \subsection{High-probability excess risk}
 
-Map every expert output to its incidence vector \(v_i(x)\in\{0,1\}^{\cY}\). The action space for the surrogate is the convex hull of the \(N\) vector-valued functions. Define
-\[
-\widetilde\ell_\eta(v,(x,y))=b_\eta(v(x)_y).
-\]
-The loss lies in \([0,1]\), and its negative exponential is affine:
-\[
-e^{-\eta\widetilde\ell_\eta(v,(x,y))}
-=e^{-\eta}+(1-e^{-\eta})v(x)_y.
-\]
-Thus it is \(\eta\)-exp-concave. At every expert vertex,
-\[
-\widetilde\ell_\eta(v_i,(x,y))
-=\1\{y\notin B_i(x)\}.
-\]
+Map every expert output to its incidence vector \(v_i(x)\in\{0,1\}^{\cY}\). The action space for the surrogate is the convex hull of the \(N\) vector-valued functions. Define \[ \widetilde\ell_\eta(v,(x,y))=b_\eta(v(x)_y). \] The loss lies in \([0,1]\), and its negative exponential is affine: \[ e^{-\eta\widetilde\ell_\eta(v,(x,y))} =e^{-\eta}+(1-e^{-\eta})v(x)_y. \] Thus it is \(\eta\)-exp-concave. At every expert vertex, \[ \widetilde\ell_\eta(v_i,(x,y)) =\1\{y\notin B_i(x)\}. \]
 
 Apply Theorem 4 of \citet{mehta2017fast} with the uniform prior and diameter bound \(B=1\). Its PM-EWOO estimator \(\widehat v\) satisfies, with probability at least \(1-\delta\),
 \begin{align*}
@@ -701,53 +466,19 @@ For every \(x\), \(\widehat v(x)\) is a mixture of the \(N\) expert incidence ve
 \section{Sequential-cover conversion}
 \label{app:sequential}
 
-Let \(\mathcal F_T\) be the \(T\)-cover supplied by the list Sauer lemma of \citet{moran2023list}, with size bounded by \eqref{eq:cover-size}. Fix an arbitrary realized sequence \((x_t,y_t)_{t=1}^T\) and a comparator \(h\in\cH\). Construct a modified label sequence by
-\[
-y'_t=
+Let \(\mathcal F_T\) be the \(T\)-cover supplied by the list Sauer lemma of \citet{moran2023list}, with size bounded by \eqref{eq:cover-size}. Fix an arbitrary realized sequence \((x_t,y_t)_{t=1}^T\) and a comparator \(h\in\cH\). Construct a modified label sequence by \[ y'_t=
 \begin{cases}
 y_t,&y_t\in h(x_t),\\
 \text{an arbitrary element of }h(x_t),&y_t\notin h(x_t).
 \end{cases}
-\]
-The modified sequence is realizable by \(h\). Hence some adaptive \(r\)-list expert \(f\in\mathcal F_T\) includes \(y'_t\) on every round. Whenever \(h\) is correct on the original sequence, \(y'_t=y_t\), so \(f\) is also correct. Therefore
-\[
-\sum_{t=1}^T\ell(f_t,y_t)
-\le\sum_{t=1}^T\ell(h(x_t),y_t).
-\]
-Aggregate the \(M_T\) cover experts with Theorem~\ref{thm:regret}. This gives the first inequality in \eqref{eq:sequential}. For the second, use \(\eta_{M_T}\ge\eta_\infty\) and
-\[
-\sum_{i=0}^d{T\choose i}a^i
-\le a^d\sum_{i=0}^d{T\choose i}
-\le\left(\frac{eTa}{d}\right)^d
-\]
-for \(a=r\lceil(L-r)/r\rceil\).
+\] The modified sequence is realizable by \(h\). Hence some adaptive \(r\)-list expert \(f\in\mathcal F_T\) includes \(y'_t\) on every round. Whenever \(h\) is correct on the original sequence, \(y'_t=y_t\), so \(f\) is also correct. Therefore \[ \sum_{t=1}^T\ell(f_t,y_t) \le\sum_{t=1}^T\ell(h(x_t),y_t). \] Aggregate the \(M_T\) cover experts with Theorem~\ref{thm:regret}. This gives the first inequality in \eqref{eq:sequential}. For the second, use \(\eta_{M_T}\ge\eta_\infty\) and \[ \sum_{i=0}^d{T\choose i}a^i \le a^d\sum_{i=0}^d{T\choose i} \le\left(\frac{eTa}{d}\right)^d \] for \(a=r\lceil(L-r)/r\rceil\).
 
 \section{Asymptotic calculations}
 \label{app:asymptotics}
 
-Write \(c=k/r\). The equation for \(\eta_\infty\) is
-\[
-\frac{e^\eta-1}{\eta}=c.
-\]
-As \(\eta\downarrow0\),
-\[
-\frac{e^\eta-1}{\eta}
-=1+\frac\eta2+\frac{\eta^2}{6}+O(\eta^3),
-\]
-which gives \(\eta=2(c-1)+O((c-1)^2)\). As \(c\to\infty\), the equation is \(e^\eta=1+c\eta\). Taking logarithms and one fixed-point iteration gives
-\[
-\eta=\log c+\log\log c+o(1).
-\]
+Write \(c=k/r\). The equation for \(\eta_\infty\) is \[ \frac{e^\eta-1}{\eta}=c. \] As \(\eta\downarrow0\), \[ \frac{e^\eta-1}{\eta} =1+\frac\eta2+\frac{\eta^2}{6}+O(\eta^3), \] which gives \(\eta=2(c-1)+O((c-1)^2)\). As \(c\to\infty\), the equation is \(e^\eta=1+c\eta\). Taking logarithms and one fixed-point iteration gives \[ \eta=\log c+\log\log c+o(1). \]
 
-For fixed \(N\), let \(c\uparrow N\). The finite-pool equation obeys
-\[
-\frac N\eta\log\left(1+\frac{e^\eta-1}{N}\right)
-=N-\frac{N\log N}{\eta}+o(1/\eta).
-\]
-Therefore
-\[
-\eta_N(r,k)\sim\frac{N\log N}{N-c}.
-\]
+For fixed \(N\), let \(c\uparrow N\). The finite-pool equation obeys \[ \frac N\eta\log\left(1+\frac{e^\eta-1}{N}\right) =N-\frac{N\log N}{\eta}+o(1/\eta). \] Therefore \[ \eta_N(r,k)\sim\frac{N\log N}{N-c}. \]
 
 \section{Numerical verification scope}
 \label{app:verification}
